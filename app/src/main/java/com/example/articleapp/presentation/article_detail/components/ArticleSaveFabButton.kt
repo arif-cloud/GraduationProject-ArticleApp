@@ -6,8 +6,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import com.example.articleapp.R
-import com.example.articleapp.domain.model.Article
-import com.example.articleapp.presentation.article_detail.ArticleDetailViewModel
 import com.example.articleapp.presentation.article_detail.ArticleState
 
 @Composable

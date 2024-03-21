@@ -3,9 +3,6 @@ package com.example.articleapp.domain.use_case.auth
 import com.example.articleapp.domain.model.AccountInfo
 import com.example.articleapp.domain.repository.FirebaseRepository
 import com.google.firebase.firestore.toObject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GetAccountInfo @Inject constructor(

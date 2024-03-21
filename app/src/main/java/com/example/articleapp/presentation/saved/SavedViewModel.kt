@@ -5,13 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.articleapp.data.cache.CacheManager
 import com.example.articleapp.domain.model.Article
 import com.example.articleapp.domain.use_case.article.GetSavedArticle
-import com.example.articleapp.presentation.home.HomeData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel

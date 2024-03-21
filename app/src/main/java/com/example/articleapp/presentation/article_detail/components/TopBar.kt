@@ -15,7 +15,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import com.example.articleapp.presentation.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)

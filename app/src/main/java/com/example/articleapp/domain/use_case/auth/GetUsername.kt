@@ -2,7 +2,6 @@ package com.example.articleapp.domain.use_case.auth
 
 import com.example.articleapp.domain.repository.FirebaseRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
