@@ -14,7 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.articleapp.domain.model.Article
 import com.example.articleapp.presentation.article_detail.components.ArticleDetailWebView
@@ -26,7 +25,7 @@ import com.example.articleapp.presentation.article_detail.components.TopBar
 fun ArticleDetailScreen(
     navController: NavController,
     articleData: Article?,
-    viewModel: ArticleDetailViewModel = hiltViewModel()
+    viewModel: ArticleDetailViewModel
 ) {
     val articleState by viewModel.articleState.collectAsState()
     val context = LocalContext.current

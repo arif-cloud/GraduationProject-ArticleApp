@@ -29,7 +29,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.articleapp.R
 import com.example.articleapp.presentation.article_generate.components.GenerateButton
 import com.example.articleapp.presentation.article_generate.components.PromptTextField
@@ -38,7 +37,7 @@ import com.example.articleapp.presentation.theme.Typography
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticleGenerateScreen(
-    viewModel: ArticleGenerateViewModel = hiltViewModel()
+    viewModel: ArticleGenerateViewModel
 ) {
     val state = viewModel.articleGenerateState.value
     var prompt by remember { mutableStateOf("Could you please write an article on ") }

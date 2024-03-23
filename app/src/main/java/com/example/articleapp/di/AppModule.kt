@@ -73,4 +73,10 @@ object AppModule {
         return context.getSharedPreferences("shared_prefs", Context.MODE_PRIVATE)
     }
 
+    @Provides
+    @Singleton
+    fun provideContext(@ApplicationContext context: Context) : Context {
+        return context
+    }
+
 }

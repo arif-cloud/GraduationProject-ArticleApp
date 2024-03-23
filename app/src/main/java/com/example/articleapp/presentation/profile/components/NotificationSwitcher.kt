@@ -29,8 +29,7 @@ fun NotificationSwitcher(
             checked = notificationChecked,
             onCheckedChange = { onSwitch(it) },
             thumbContent = if (notificationChecked) {
-                { Icon(imageVector = Icons.Filled.Check, contentDescription = null, modifier = Modifier.size(
-                    SwitchDefaults.IconSize), tint = MaterialTheme.colorScheme.primary) }
+                { Icon(imageVector = Icons.Filled.Check, contentDescription = null, modifier = Modifier.size(SwitchDefaults.IconSize), tint = MaterialTheme.colorScheme.primary) }
             } else { null }
         )
     }

@@ -21,8 +21,8 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getAccountInfo: GetAccountInfo,
     private val getSettingsState: GetSettingsState,
-    private val updateNotificationState: UpdateNotificationState,
     private val updateThemeState: UpdateThemeState,
+    private val updateNotificationState: UpdateNotificationState,
     private val getDocumentReference: GetDocumentReference,
     private val updateUsername: UpdateUsername,
     private val updatePassword: UpdatePassword,
@@ -71,9 +71,15 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun updateSettingsState() {
+        val settingsState = getSettingsState()
+        val newProfileData = _profileState.value.profileData.copy(settingsState = settingsState)
+        _profileState.value = ProfileState(profileData = newProfileData)
+    }
+
     fun updateThemeStatus(theme : String) = updateThemeState(theme)
 
-    fun updateNotificationStatus(isGranted : Boolean) = updateNotificationState(isGranted)
+    fun updateNotificationStatus() = updateNotificationState()
 
     fun logOut() = signOut()
 

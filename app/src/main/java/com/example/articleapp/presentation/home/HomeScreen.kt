@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -37,14 +36,12 @@ import com.example.articleapp.presentation.home.components.PaginatedArticleList
 @Composable
 fun HomeScreen(
     navController: NavHostController = rememberNavController(),
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel
 ) {
     val state by viewModel.homeState.collectAsState()
     val notificationPermissionResultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
-        onResult = {isGranted ->
-            viewModel.onPermissionResult(isGranted)
-        }
+        onResult = { }
     )
     LaunchedEffect(key1 = Unit) {
         notificationPermissionResultLauncher.launch(
@@ -67,12 +64,6 @@ fun HomeScreen(
                     }
                 )
                 homeData.articleData?.let {flowPagingData ->
-                    LaunchedEffect(key1 = Unit) {
-                        viewModel.cacheData(homeData.username, homeData.categoryList, flowPagingData)
-                    }
-                    LaunchedEffect(key1 = flowPagingData) {
-                        viewModel.updateCacheData(flowPagingData)
-                    }
                     val articleList = flowPagingData.collectAsLazyPagingItems()
                     PaginatedArticleList(articleList = articleList, navController = navController)
                 }

@@ -1,5 +1,7 @@
 package com.example.articleapp.presentation.profile.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,14 +19,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.articleapp.presentation.profile.SettingsState
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun SettingsSection(
     settingsState : SettingsState,
     onThemeChange : (String) -> Unit,
-    onNotificationChange : (Boolean) -> Unit
+    onNotificationChange : () -> Unit
 ) {
     var theme by remember { mutableStateOf(settingsState.theme) }
-    var notificationChecked by remember { mutableStateOf(settingsState.notification) }
+    val notificationChecked by remember { mutableStateOf(settingsState.notification) }
     Column(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(color = MaterialTheme.colorScheme.primaryContainer)) {
         SettingsTitle()
         Divider(modifier = Modifier.fillMaxWidth().height(4.dp))
@@ -33,8 +36,7 @@ fun SettingsSection(
             onThemeChange(it)
         })
         NotificationSwitcher(notificationChecked = notificationChecked, onSwitch = {
-            notificationChecked = it
-            onNotificationChange(it)
+            onNotificationChange()
         })
     }
 }

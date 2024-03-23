@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.articleapp.presentation.home.components.ArticleList
 import com.example.articleapp.presentation.search.components.PopularArticleList
@@ -24,7 +22,7 @@ import com.example.articleapp.presentation.search.components.SearchBar
 @Composable
 fun SearchScreen(
     navController: NavController,
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel
 ) {
     val state by viewModel.searchState.collectAsState()
     val searchArticleListState by viewModel.searchArticleListState.collectAsState()
@@ -49,9 +47,6 @@ fun SearchScreen(
                     searchArticleListState?.let {
                         ArticleList(articleList = it, navController = navController)
                     }
-            }
-            LaunchedEffect(key1 = Unit) {
-                viewModel.cacheData(popularArticles)
             }
         }
         if (state.isLoading) {
