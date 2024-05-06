@@ -31,6 +31,7 @@ import com.example.articleapp.presentation.search.SearchViewModel
 @Composable
 fun BottomNavGraph(
     navController: NavHostController,
+    notificationDestination: String?,
     innerPaddingValues: PaddingValues,
     logout: () -> Unit
 ) {
@@ -46,7 +47,7 @@ fun BottomNavGraph(
     ) {
         composable(route = Screen.Home.route) {
             val viewModel: HomeViewModel = hiltViewModel(viewModelStoreOwner)
-            HomeScreen(navController, viewModel)
+            HomeScreen(navController, viewModel, notificationDestination)
         }
         composable(route = Screen.Search.route) {
             val viewModel: SearchViewModel = hiltViewModel(viewModelStoreOwner)

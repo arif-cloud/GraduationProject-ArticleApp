@@ -16,6 +16,9 @@ interface ArticleApi {
     @GET("articles/all")
     suspend fun getAllArticles() : List<Article>
 
+    @GET("article/daily")
+    suspend fun getDailyArticle(@Query("dayIndex") dayIndex : Int) : Article
+
     @GET("articles/{category}")
     suspend fun getArticlesByCategory(@Path("category") category : String, @Query("page") page : Int) : List<Article>
 

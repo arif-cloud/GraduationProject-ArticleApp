@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,18 +32,25 @@ import com.example.articleapp.domain.model.Category
 import com.example.articleapp.presentation.home.components.ArticleListItem
 import com.example.articleapp.presentation.home.components.CategoryList
 import com.example.articleapp.presentation.home.components.PaginatedArticleList
+import kotlinx.coroutines.Dispatchers
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeScreen(
     navController: NavHostController = rememberNavController(),
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    notificationDestination: String?,
 ) {
     val state by viewModel.homeState.collectAsState()
     val notificationPermissionResultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { }
     )
+    val scope = rememberCoroutineScope {Dispatchers.Main}
+    LaunchedEffect(key1 = notificationDestination) {
+        if (notificationDestination == "daily")
+            viewModel.getDailyArticleDetail(scope, navController)
+    }
     LaunchedEffect(key1 = Unit) {
         notificationPermissionResultLauncher.launch(
             android.Manifest.permission.POST_NOTIFICATIONS

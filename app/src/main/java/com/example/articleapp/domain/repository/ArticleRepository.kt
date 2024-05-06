@@ -10,6 +10,8 @@ interface ArticleRepository {
 
     suspend fun getAllArticles() : List<Article>
 
+    suspend fun getDailyArticle(dayIndex: Int) : Article
+
     suspend fun getArticlesByCategory(category : String, page : Int) : List<Article>
 
     suspend fun getAllCategories() : List<Category>

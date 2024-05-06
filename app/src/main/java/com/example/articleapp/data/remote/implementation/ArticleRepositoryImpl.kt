@@ -21,6 +21,10 @@ class ArticleRepositoryImpl @Inject constructor(
         api.getAllArticles()
     }
 
+    override suspend fun getDailyArticle(dayIndex: Int): Article = withContext(ioDispatcher) {
+        api.getDailyArticle(dayIndex)
+    }
+
     override suspend fun getArticlesByCategory(category: String, page : Int): List<Article> = withContext(ioDispatcher) {
         api.getArticlesByCategory(category, page)
     }

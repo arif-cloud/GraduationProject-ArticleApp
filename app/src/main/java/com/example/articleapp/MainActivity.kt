@@ -31,9 +31,14 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
+    private var notificationDestination: String? = null
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val destination = intent.getStringExtra("destination")
+        if (!destination.isNullOrEmpty()) {
+            notificationDestination = destination
+        }
         setContent {
             var themeState by remember { mutableStateOf(sharedPreferences.getString("theme", "System Default")) }
             var dynamicColor = themeState.equals("System Default")
@@ -50,7 +55,7 @@ class MainActivity : ComponentActivity() {
             ArticleAppTheme(darkTheme = if (dynamicColor) isSystemInDarkTheme() else darkTheme, dynamicColor = dynamicColor) {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     val navController = rememberNavController()
-                    RootNavigationGraph(firebaseAuth, navController)
+                    RootNavigationGraph(firebaseAuth, navController, notificationDestination)
                 }
             }
         }

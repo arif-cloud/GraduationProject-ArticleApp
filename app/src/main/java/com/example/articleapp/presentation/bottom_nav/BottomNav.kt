@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.articleapp.R
 import com.example.articleapp.presentation.root.Screen
 
@@ -31,7 +32,8 @@ import com.example.articleapp.presentation.root.Screen
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun BottomNav(
-    navController: NavHostController,
+    notificationDestination: String?,
+    navController: NavHostController = rememberNavController(),
     logout: () -> Unit
 ) {
     val items = listOf(
@@ -91,14 +93,14 @@ fun BottomNav(
                         icon = {
                             Icon(imageVector = item.icon, contentDescription = item.title)
                         },
-                        label = { Text(text = item.title)},
+                        label = { Text(text = item.title) },
                         alwaysShowLabel = false)
                 }
             }
         }
         }
     ) { innerPadding ->
-        BottomNavGraph(navController = navController, innerPaddingValues = innerPadding) { logout() }
+        BottomNavGraph(navController = navController, notificationDestination,innerPaddingValues = innerPadding) { logout() }
     }
 }
 
