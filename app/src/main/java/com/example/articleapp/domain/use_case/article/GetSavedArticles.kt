@@ -5,7 +5,7 @@ import com.example.articleapp.domain.repository.ArticleRepository
 import com.example.articleapp.domain.repository.FirebaseRepository
 import javax.inject.Inject
 
-class GetSavedArticle @Inject constructor(
+class GetSavedArticles @Inject constructor(
     private val articleRepository: ArticleRepository,
     private val firebaseRepository: FirebaseRepository
 ) {

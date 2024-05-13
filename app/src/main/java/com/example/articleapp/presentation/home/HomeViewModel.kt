@@ -51,7 +51,7 @@ class HomeViewModel @Inject constructor(
 
     fun getArticles(category : String) {
         viewModelScope.launch {
-            val articleList = getArticlesByCategory(category)
+            val articleList = getArticlesByCategory(category).cachedIn(viewModelScope)
             val newHomeData = _homeState.value.data?.copy(articleData = articleList)
             _homeState.value = HomeState(data = newHomeData)
         }

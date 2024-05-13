@@ -25,12 +25,37 @@ fun ArticleListItem(
     article: Article,
     onItemClick : (Article) -> Unit
 ) {
-    Card(modifier = Modifier.fillMaxWidth().clickable { onItemClick(article) }, shape = RoundedCornerShape(size = 20.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
-        AsyncImage(model = article.imageUrl, contentDescription = null, modifier = Modifier.fillMaxWidth().height(200.dp), contentScale = ContentScale.FillBounds)
-        Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(5.dp)) {
-            Text(text = article.title ?: "", style = MaterialTheme.typography.bodyMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onItemClick(article) },
+        shape = RoundedCornerShape(size = 20.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+    ) {
+        AsyncImage(
+            model = article.imageUrl,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
+            contentScale = ContentScale.FillBounds
+        )
+        Column(
+            modifier = Modifier.padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            Text(
+                text = article.title ?: "",
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
             TagList(article.tags)
-            Text(text = article.publishDate ?: "", style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
+            Text(
+                text = article.publishDate ?: "",
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Gray
+            )
         }
     }
 }

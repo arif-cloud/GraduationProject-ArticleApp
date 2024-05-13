@@ -11,8 +11,7 @@ import com.example.articleapp.R
 val goldPlayFamily = FontFamily(
     Font(R.font.goldplay_regular, FontWeight.Normal),
     Font(R.font.goldplay_bold, FontWeight.Bold),
-    Font(R.font.goldplay_medium, FontWeight.Medium),
-
+    Font(R.font.goldplay_medium, FontWeight.Medium)
 )
 val Typography = Typography(
     titleLarge = TextStyle(
