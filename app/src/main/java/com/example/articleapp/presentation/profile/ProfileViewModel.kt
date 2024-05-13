@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.articleapp.domain.use_case.auth.GetAccountInfo
 import com.example.articleapp.domain.use_case.auth.GetDocumentReference
+import com.example.articleapp.domain.use_case.auth.GetGoogleAccountInfo
+import com.example.articleapp.domain.use_case.auth.GetLoginMethod
 import com.example.articleapp.domain.use_case.settings.GetSettingsState
 import com.example.articleapp.domain.use_case.auth.SignOut
+import com.example.articleapp.domain.use_case.auth.UpdateLoginMethod
 import com.example.articleapp.domain.use_case.auth.UpdatePassword
 import com.example.articleapp.domain.use_case.auth.UpdateUsername
 import com.example.articleapp.domain.use_case.settings.UpdateNotificationState
@@ -20,12 +23,15 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getAccountInfo: GetAccountInfo,
+    private val getGoogleAccountInfo: GetGoogleAccountInfo,
     private val getSettingsState: GetSettingsState,
     private val updateThemeState: UpdateThemeState,
     private val updateNotificationState: UpdateNotificationState,
     private val getDocumentReference: GetDocumentReference,
     private val updateUsername: UpdateUsername,
     private val updatePassword: UpdatePassword,
+    private val getLoginMethod: GetLoginMethod,
+    private val updateLoginMethod: UpdateLoginMethod,
     private val signOut: SignOut
 ) : ViewModel() {
 
@@ -39,7 +45,7 @@ class ProfileViewModel @Inject constructor(
     private fun fetchAccountInfo() {
         viewModelScope.launch {
             try {
-                val accountInfo = getAccountInfo()
+                val accountInfo = if (getLoginMethod() == "google") getGoogleAccountInfo() else getAccountInfo()
                 val settingsState = getSettingsState()
                 _profileState.value = ProfileState(profileData = ProfileData(accountInfo, settingsState))
             } catch (e : Exception) {
@@ -81,6 +87,11 @@ class ProfileViewModel @Inject constructor(
 
     fun updateNotificationStatus() = updateNotificationState()
 
-    fun logOut() = signOut()
+    fun getLoginMethod() = getLoginMethod.invoke()
+
+    fun logOut() {
+        signOut()
+        updateLoginMethod(null)
+    }
 
 }
