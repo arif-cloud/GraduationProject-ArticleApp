@@ -20,6 +20,7 @@ import javax.inject.Inject
 class FirebaseRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val firebaseFirestore : FirebaseFirestore,
+    private val firebaseStorage: FirebaseStorage,
     private val ioDispatcher : CoroutineDispatcher = Dispatchers.IO
 ) : FirebaseRepository {
 
@@ -31,12 +32,17 @@ class FirebaseRepositoryImpl @Inject constructor(
         firebaseAuth.createUserWithEmailAndPassword(email, password).await()
     }
 
-    override suspend fun saveAccountInfo(accountInfo: AccountInfo): DocumentReference = withContext(ioDispatcher) {
-        firebaseFirestore.collection("users").add(accountInfo).await()
     override suspend fun googleSignIn(credential: AuthCredential): AuthResult = withContext(ioDispatcher) {
         firebaseAuth.signInWithCredential(credential).await()
     }
 
+    override suspend fun saveAccountInfo(accountInfo: AccountInfo): Unit = withContext(ioDispatcher) {
+        firebaseStorage.reference.child(accountInfo.userId).putFile(Uri.parse(accountInfo.imageUri)).addOnSuccessListener { task ->
+            task.metadata?.reference?.downloadUrl?.addOnSuccessListener {url ->
+                val newAccountInfo = accountInfo.copy(imageUri = url.toString())
+                firebaseFirestore.collection("users").add(newAccountInfo)
+            }
+        }
     }
 
     override suspend fun getAccountInfo(userId: String): QuerySnapshot = withContext(ioDispatcher) {

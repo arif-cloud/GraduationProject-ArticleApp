@@ -1,5 +1,6 @@
 package com.example.articleapp.presentation.auth.components
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -19,18 +20,33 @@ import com.example.articleapp.R
 
 @Composable
 fun ProfilePhotoField(
-    imageUrl: String?,
+    imageUri: Uri?,
     onClick: () -> Unit
 ) {
     Box {
-        AsyncImage(model = if (!imageUrl.isNullOrEmpty()) imageUrl else R.drawable.default_profile, contentDescription = null, modifier = Modifier.clip(CircleShape).size(200.dp), contentScale = ContentScale.Crop)
-        IconButton(onClick = { onClick() }, modifier = Modifier
-            .size(50.dp)
-            .align(Alignment.BottomEnd)
-            .clip(CircleShape),
-            content = { Icon(
-                painter = painterResource(id = R.drawable.edit),
-                contentDescription = null, modifier = Modifier.size(30.dp), tint = MaterialTheme.colorScheme.onPrimary)
-            }, colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.primary))
+        AsyncImage(
+            model = imageUri ?: R.drawable.default_profile,
+            contentDescription = null,
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(200.dp),
+            contentScale = ContentScale.Crop
+        )
+        IconButton(
+            onClick = { onClick() },
+            modifier = Modifier
+                .size(50.dp)
+                .align(Alignment.BottomEnd)
+                .clip(CircleShape),
+            colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
+            content = {
+                Icon(
+                    painter = painterResource(id = R.drawable.edit),
+                    contentDescription = null,
+                    modifier = Modifier.size(30.dp),
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        )
     }
 }

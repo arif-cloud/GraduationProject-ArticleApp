@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.articleapp"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -74,7 +74,6 @@ dependencies {
     val lifecycleVersion = "2.7.0"
     val retrofitVersion = "2.9.0"
     val pagingVersion = "3.2.1"
-    val workVersion = "2.9.0"
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
@@ -111,9 +110,13 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
     //Navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")
-    //Firebase
-    implementation("com.google.firebase:firebase-auth:22.3.1")
-    implementation("com.google.firebase:firebase-firestore:24.10.3")
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.android.gms:play-services-auth")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-messaging")
     //GeminiAI
     implementation("com.google.ai.client.generativeai:generativeai:0.2.1")
     //BottomSheet
@@ -121,8 +124,6 @@ dependencies {
     //Paging3
     implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
     implementation("androidx.paging:paging-compose:$pagingVersion")
-    //WorkManager
-    implementation("androidx.work:work-runtime-ktx:$workVersion")
 }
 kapt {
     correctErrorTypes = true

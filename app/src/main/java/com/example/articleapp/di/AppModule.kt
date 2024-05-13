@@ -1,8 +1,8 @@
 package com.example.articleapp.di
 
-import com.example.articleapp.BuildConfig
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.articleapp.BuildConfig
 import com.example.articleapp.common.Constants
 import com.example.articleapp.data.firebase.implementation.FirebaseRepositoryImpl
 import com.example.articleapp.data.remote.api.ArticleApi
@@ -14,6 +14,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.storage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,16 +50,20 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesFirebaseAuth() = FirebaseAuth.getInstance()
+    fun provideFirebaseAuth() = FirebaseAuth.getInstance()
 
     @Provides
     @Singleton
-    fun providesFirebaseFirestore() = Firebase.firestore
+    fun provideFirebaseFirestore() = Firebase.firestore
 
     @Provides
     @Singleton
-    fun provideFirebaseRepository(firebaseAuth: FirebaseAuth, firebaseFirestore : FirebaseFirestore) : FirebaseRepository {
-        return FirebaseRepositoryImpl(firebaseAuth, firebaseFirestore)
+    fun provideFirebaseStorage() = Firebase.storage
+
+    @Provides
+    @Singleton
+    fun provideFirebaseRepository(firebaseAuth: FirebaseAuth, firebaseFirestore : FirebaseFirestore, firebaseStorage: FirebaseStorage) : FirebaseRepository {
+        return FirebaseRepositoryImpl(firebaseAuth, firebaseFirestore, firebaseStorage)
     }
 
     @Provides

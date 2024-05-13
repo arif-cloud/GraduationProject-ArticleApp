@@ -53,9 +53,8 @@ fun ProfileScreen(
             state.profileData.accountInfo?.let {
                 AccountInfoSection(accountInfo = it)
             }
-            EditProfileButton(
-                onButtonClick = { openAlertDialog = true }
-            )
+            if (viewModel.getLoginMethod() == "email_password")
+                EditProfileButton(onButtonClick = { openAlertDialog = true })
             Spacer(modifier = Modifier.height(10.dp))
             state.profileData.settingsState?.let {
                 SettingsSection(
