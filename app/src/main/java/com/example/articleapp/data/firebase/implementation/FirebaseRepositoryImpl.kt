@@ -9,7 +9,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -45,8 +45,20 @@ class FirebaseRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAccountInfo(userId: String): QuerySnapshot = withContext(ioDispatcher) {
-        firebaseFirestore.collection("users").whereEqualTo("userId", userId).get().await()
+    override suspend fun getRegisteredUserAccountInfo(): AccountInfo = withContext(ioDispatcher) {
+        val response = firebaseFirestore.collection("users").whereEqualTo("userId", firebaseAuth.currentUser?.uid.orEmpty()).get().await()
+        response.documents[0].toObject<AccountInfo>() ?: AccountInfo()
+    }
+
+    override suspend fun getGoogleAccountInfo(): AccountInfo = withContext(ioDispatcher) {
+        firebaseAuth.currentUser?.run {
+            AccountInfo(
+                userId = uid,
+                username = displayName,
+                email = email,
+                imageUri = photoUrl.toString()
+            )
+        } ?: AccountInfo()
     }
 
     override fun updatePassword(newPassword: String): Task<Void> {
