@@ -61,6 +61,12 @@ class FirebaseRepositoryImpl @Inject constructor(
         } ?: AccountInfo()
     }
 
+    override suspend fun updateUsername(newUsername: String): Task<Void> = withContext(ioDispatcher) {
+        val result = firebaseFirestore.collection("users").whereEqualTo("userId", firebaseAuth.currentUser?.uid).get().await()
+        val documentReference = result.documents[0].reference
+        documentReference.update("username", newUsername)
+    }
+
     override fun updatePassword(newPassword: String): Task<Void> {
         return firebaseAuth.currentUser!!.updatePassword(newPassword)
     }

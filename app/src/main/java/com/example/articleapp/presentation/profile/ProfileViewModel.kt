@@ -3,16 +3,13 @@ package com.example.articleapp.presentation.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.articleapp.domain.use_case.auth.GetAccountInfo
-import com.example.articleapp.domain.use_case.auth.GetDocumentReference
 import com.example.articleapp.domain.use_case.auth.GetLoginMethod
 import com.example.articleapp.domain.use_case.auth.SignOut
+import com.example.articleapp.domain.use_case.auth.UpdateAccountInfo
 import com.example.articleapp.domain.use_case.auth.UpdateLoginMethod
-import com.example.articleapp.domain.use_case.auth.UpdatePassword
-import com.example.articleapp.domain.use_case.auth.UpdateUsername
 import com.example.articleapp.domain.use_case.settings.GetSettingsState
 import com.example.articleapp.domain.use_case.settings.UpdateNotificationState
 import com.example.articleapp.domain.use_case.settings.UpdateThemeState
-import com.google.android.gms.tasks.Tasks
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,9 +22,7 @@ class ProfileViewModel @Inject constructor(
     private val getSettingsState: GetSettingsState,
     private val updateThemeState: UpdateThemeState,
     private val updateNotificationState: UpdateNotificationState,
-    private val getDocumentReference: GetDocumentReference,
-    private val updateUsername: UpdateUsername,
-    private val updatePassword: UpdatePassword,
+    private val updateAccountInfo: UpdateAccountInfo,
     private val getLoginMethod: GetLoginMethod,
     private val updateLoginMethod: UpdateLoginMethod,
     private val signOut: SignOut
@@ -54,15 +49,12 @@ class ProfileViewModel @Inject constructor(
 
     fun updateProfile(newUsername : String, newPassword : String, onSuccess : (String) -> Unit, onFailure : (String) -> Unit) {
         viewModelScope.launch {
-            val documentReference = getDocumentReference()
-            Tasks.whenAllComplete(
-                updateUsername(documentReference, newUsername),
-                updatePassword(newPassword)
-            ).addOnSuccessListener {
+            val result = updateAccountInfo(newUsername, newPassword)
+            result.onSuccess {
                 onSuccess("Update Successfully")
                 updateProfileState()
-            }.addOnFailureListener {e ->
-                onFailure(e.stackTraceToString())
+            }.onFailure {t ->
+                onFailure(t.localizedMessage.orEmpty())
             }
         }
     }

@@ -14,6 +14,7 @@ interface FirebaseRepository {
     suspend fun saveAccountInfo(accountInfo: AccountInfo)
     suspend fun getRegisteredUserAccountInfo() : AccountInfo
     suspend fun getGoogleAccountInfo() : AccountInfo
+    suspend fun updateUsername(newUsername : String) : Task<Void>
     fun updatePassword(newPassword : String) : Task<Void>
     fun getCurrentUser() : FirebaseUser?
     fun getUserId() : String
