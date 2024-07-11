@@ -37,7 +37,7 @@ import com.example.articleapp.presentation.theme.Typography
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticleGenerateScreen(
-    viewModel: ArticleGenerateViewModel
+    viewModel: ArticleGenerateViewModel,
 ) {
     val state = viewModel.articleGenerateState.value
     var prompt by remember { mutableStateOf("Could you please write an article on ") }
@@ -50,7 +50,10 @@ fun ArticleGenerateScreen(
                     IconButton(
                         onClick = { /*TODO*/ },
                         modifier = Modifier.clip(CircleShape),
-                        colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.primaryContainer, contentColor = MaterialTheme.colorScheme.primary),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.primary
+                        ),
                         content = {
                             Icon(
                                 painter = painterResource(id = R.drawable.gemini),
@@ -61,7 +64,7 @@ fun ArticleGenerateScreen(
                 }
             )
         },
-        content = {paddingValues ->
+        content = { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -79,13 +82,17 @@ fun ArticleGenerateScreen(
                         onPromptChange = { prompt = it }
                     )
                     GenerateButton(
-                        articleGenerateState = viewModel.articleGenerateState.value,
+                        articleGenerateState = state,
                         onClickGenerateButton = {
                             viewModel.generateArticle(prompt)
                         }
                     )
                     state.data?.let {
-                        Text(text = it, style = Typography.bodyMedium, modifier = Modifier.verticalScroll(rememberScrollState()))
+                        Text(
+                            text = it,
+                            style = Typography.bodyMedium,
+                            modifier = Modifier.verticalScroll(rememberScrollState())
+                        )
                     }
                 }
                 if (state.error.isNotEmpty()) {
@@ -108,7 +115,10 @@ fun ArticleGenerateScreenContent() {
                     IconButton(
                         onClick = { /*TODO*/ },
                         modifier = Modifier.clip(CircleShape),
-                        colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.primaryContainer, contentColor = MaterialTheme.colorScheme.primary),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.primary
+                        ),
                         content = {
                             Icon(
                                 painter = painterResource(id = R.drawable.gemini),
@@ -119,7 +129,7 @@ fun ArticleGenerateScreenContent() {
                 }
             )
         },
-        content = {paddingValues ->
+        content = { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -134,7 +144,7 @@ fun ArticleGenerateScreenContent() {
                 ) {
                     PromptTextField(
                         prompt = "",
-                        onPromptChange = {  }
+                        onPromptChange = { }
                     )
                     GenerateButton(
                         articleGenerateState = ArticleGenerateState(),
